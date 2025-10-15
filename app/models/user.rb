@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :posts, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   # Follow associations
   # Users that this user is following
@@ -26,5 +28,18 @@ class User < ApplicationRecord
   
   def following?(user)
     following.include?(user)
+  end
+
+  # Like helper methods
+  def like(post)
+    likes.find_or_create_by(post: post)
+  end
+  
+  def unlike(post)
+    likes.find_by(post: post)&.destroy
+  end
+  
+  def liked?(post)
+    likes.exists?(post: post)
   end
 end

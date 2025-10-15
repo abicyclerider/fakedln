@@ -1,0 +1,56 @@
+<h1><%= @user.first_name %> <%= @user.last_name %></h1>
+
+<div class="user-profile" style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; border-radius: 5px;">
+  <h2><%= @user.headline %></h2>
+  <p><strong>Location:</strong> <%= @user.location %></p>
+  <p><strong>Email:</strong> <%= @user.email %></p>
+  
+  <div style="margin: 15px 0;">
+    <p>
+      <strong><%= pluralize(@user.followers.count, 'follower') %></strong> · 
+      <strong><%= pluralize(@user.following.count, 'connection') %></strong> · 
+      <strong><%= pluralize(@user.posts.count, 'post') %></strong>
+    </p>
+  </div>
+  
+  <!-- Follow/Unfollow button (only show if it's not the current user) -->
+  <% if @user != current_user %>
+    <% if current_user.following?(@user) %>
+      <%= button_to "Unfollow", unfollow_user_path(@user), method: :delete %>
+    <% else %>
+      <%= button_to "Follow", follow_user_path(@user), method: :post %>
+    <% end %>
+  <% end %>
+  
+  <% if @user.bio.present? %>
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+      <h3>About</h3>
+      <p><%= @user.bio %></p>
+    </div>
+  <% end %>
+</div>
+
+<hr>
+
+<h2><%= @user.first_name %>'s Posts</h2>
+
+<div class="user-posts">
+  <% if @posts.any? %>
+    <% @posts.each do |post| %>
+      <div class="post" style="border: 1px solid #ccc; padding: 15px; margin: 15px 0; border-radius: 5px;">
+        <p><%= post.content %></p>
+        <p style="color: #666; font-size: 0.9em;">
+          <%= time_ago_in_words(post.created_at) %> ago · 
+          <%= pluralize(post.likes.count, 'like') %> · 
+          <%= pluralize(post.comments.count, 'comment') %>
+        </p>
+        <%= link_to "View Post", post_path(post) %>
+      </div>
+    <% end %>
+  <% else %>
+    <p><%= @user.first_name %> hasn't posted anything yet.</p>
+  <% end %>
+</div>
+
+<%= link_to "Back to Feed", root_path %> | 
+<%= link_to "Find People", users_path %>

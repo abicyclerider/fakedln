@@ -16,8 +16,8 @@
   <h2>Recent Posts</h2>
   <% if @posts.any? %>
     <% @posts.each do |post| %>
-      <div class="post" style="border: 1px solid #ccc; padding: 15px; margin: 15px 0; border-radius: 5px;">
-        <p><strong><%= post.user.email %></strong></p>
+       <div class="post" style="border: 1px solid #ccc; padding: 15px; margin: 15px 0; border-radius: 5px;">
+        <p><strong><%= link_to post.user.email, user_path(post.user) %></strong></p>
 
         <!-- Follow/Unfollow button (only show if it's not the current user) -->
         <% if post.user != current_user %>
@@ -29,6 +29,42 @@
         <% end %>
 
         <p><%= post.content %></p>
+
+        <!-- Like/Unlike button and count -->
+        <div style="margin: 10px 0;">
+          <% if current_user.liked?(post) %>
+            <%= button_to "Unlike", unlike_post_path(post), method: :delete, style: "display: inline;" %>
+          <% else %>
+            <%= button_to "Like", like_post_path(post), method: :post, style: "display: inline;" %>
+          <% end %>
+          <span style="margin-left: 10px;"><%= pluralize(post.likes.count, 'like') %></span>
+        </div>
+        
+        <!-- Comments section -->
+        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+          <h4><%= pluralize(post.comments.count, 'comment') %></h4>
+          
+          <!-- Display comments -->
+          <% post.comments.order(created_at: :asc).each do |comment| %>
+            <div style="margin: 10px 0; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+              <p><strong><%= link_to comment.user.email, user_path(comment.user) %></strong></p>
+              <p><%= comment.content %></p>
+              <p style="color: #666; font-size: 0.85em;">
+                <%= time_ago_in_words(comment.created_at) %> ago
+                <% if comment.user == current_user %>
+                  <%= button_to "Delete", post_comment_path(post, comment), method: :delete, style: "display: inline; margin-left: 10px;", data: { confirm: "Are you sure?" } %>
+                <% end %>
+              </p>
+            </div>
+          <% end %>
+          
+          <!-- Add comment form -->
+          <%= form_with model: [post, Comment.new], local: true do |f| %>
+            <%= f.text_area :content, placeholder: "Write a comment...", rows: 2, style: "width: 100%; margin-top: 10px;" %>
+            <%= f.submit "Comment", style: "margin-top: 5px;" %>
+          <% end %>
+        </div>
+
         <p style="color: #666; font-size: 0.9em;"><%= time_ago_in_words(post.created_at) %> ago</p>
         <%= link_to "View Post", post_path(post) %>
       </div>

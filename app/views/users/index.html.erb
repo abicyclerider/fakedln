@@ -6,8 +6,7 @@
   <% if @users.any? %>
     <% @users.each do |user| %>
       <div class="user-card" style="border: 1px solid #ccc; padding: 15px; margin: 15px 0; border-radius: 5px;">
-        <h3><%= user.first_name %> <%= user.last_name %></h3>
-        <p><strong><%= user.email %></strong></p>
+        <h3><%= link_to "#{user.first_name} #{user.last_name}", user_path(user) %></h3>
         <p><em><%= user.headline %></em></p>
         <p><%= user.location %></p>
         

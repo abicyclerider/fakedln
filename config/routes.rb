@@ -1,10 +1,16 @@
 Rails.application.routes.draw do
-  resources :users, only: [:index]
-  resources :posts
+  resources :users, only: [:index, :show]
+  resources :posts do
+    resources :comments, only: [:create, :destroy]
+  end
 
   # Follow/unfollow routes
   post 'users/:id/follow', to: 'follows#create', as: 'follow_user'
   delete 'users/:id/unfollow', to: 'follows#destroy', as: 'unfollow_user'
+
+  # Like/unlike routes
+  post 'posts/:id/like', to: 'likes#create', as: 'like_post'
+  delete 'posts/:id/unlike', to: 'likes#destroy', as: 'unlike_post'
 
 
   devise_for :users
