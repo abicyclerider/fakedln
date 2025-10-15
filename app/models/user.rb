@@ -7,7 +7,9 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :comments, dependent: :destroy
-
+  
+  # Profile picture
+  has_one_attached :profile_picture
   # Follow associations
   # Users that this user is following
   has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy

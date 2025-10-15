@@ -17,7 +17,12 @@
   <% if @posts.any? %>
     <% @posts.each do |post| %>
        <div class="post" style="border: 1px solid #ccc; padding: 15px; margin: 15px 0; border-radius: 5px;">
-        <p><strong><%= link_to post.user.email, user_path(post.user) %></strong></p>
+        <div style="display: flex; align-items: center; gap: 10px;">
+        <%= profile_picture_for(post.user, size: 40) %>
+        <div>
+          <p><strong><%= link_to post.user.email, user_path(post.user) %></strong></p>
+        </div>
+      </div>
 
         <!-- Follow/Unfollow button (only show if it's not the current user) -->
         <% if post.user != current_user %>
@@ -47,7 +52,10 @@
           <!-- Display comments -->
           <% post.comments.order(created_at: :asc).each do |comment| %>
             <div style="margin: 10px 0; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
-              <p><strong><%= link_to comment.user.email, user_path(comment.user) %></strong></p>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <%= profile_picture_for(comment.user, size: 30) %>
+                <p><strong><%= link_to comment.user.email, user_path(comment.user) %></strong></p>
+              </div>
               <p><%= comment.content %></p>
               <p style="color: #666; font-size: 0.85em;">
                 <%= time_ago_in_words(comment.created_at) %> ago

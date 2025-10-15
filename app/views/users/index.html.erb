@@ -6,7 +6,12 @@
   <% if @users.any? %>
     <% @users.each do |user| %>
       <div class="user-card" style="border: 1px solid #ccc; padding: 15px; margin: 15px 0; border-radius: 5px;">
-        <h3><%= link_to "#{user.first_name} #{user.last_name}", user_path(user) %></h3>
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <%= profile_picture_for(user, size: 60) %>
+          <div>
+            <h3><%= link_to "#{user.first_name} #{user.last_name}", user_path(user) %></h3>
+          </div>
+        </div>
         <p><em><%= user.headline %></em></p>
         <p><%= user.location %></p>
         
