@@ -1,0 +1,9 @@
+<h1>Post</h1>
+
+<div class="post" style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; border-radius: 5px;">
+  <p><strong><%= @post.user.email %></strong></p>
+  <p><%= @post.content %></p>
+  <p style="color: #666; font-size: 0.9em;">Posted <%= time_ago_in_words(@post.created_at) %> ago</p>
+</div>
+
+<%= link_to "Back to Feed", root_path %>

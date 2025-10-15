@@ -1,0 +1,32 @@
+<h1>Find People to Follow</h1>
+
+<p>Discover and connect with other users on FakeDLN</p>
+
+<div class="users-list">
+  <% if @users.any? %>
+    <% @users.each do |user| %>
+      <div class="user-card" style="border: 1px solid #ccc; padding: 15px; margin: 15px 0; border-radius: 5px;">
+        <h3><%= user.first_name %> <%= user.last_name %></h3>
+        <p><strong><%= user.email %></strong></p>
+        <p><em><%= user.headline %></em></p>
+        <p><%= user.location %></p>
+        
+        <!-- Follow/Unfollow button -->
+        <% if current_user.following?(user) %>
+          <%= button_to "Unfollow", unfollow_user_path(user), method: :delete %>
+        <% else %>
+          <%= button_to "Follow", follow_user_path(user), method: :post %>
+        <% end %>
+        
+        <p style="color: #666; font-size: 0.9em;">
+          <%= pluralize(user.followers.count, 'follower') %> · 
+          <%= pluralize(user.following.count, 'connection') %>
+        </p>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No other users found.</p>
+  <% end %>
+</div>
+
+<%= link_to "Back to Feed", root_path %>

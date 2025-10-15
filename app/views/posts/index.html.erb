@@ -1,0 +1,40 @@
+<h1>FakeDLN Feed</h1>
+
+<!-- Form to create a new post -->
+<div class="new-post">
+  <h2>Create a Post</h2>
+  <%= form_with model: @post, local: true do |f| %>
+    <%= f.text_area :content, placeholder: "What's on your mind?", rows: 4, style: "width: 100%;" %>
+    <%= f.submit "Post", style: "margin-top: 10px;" %>
+  <% end %>
+</div>
+
+<hr>
+
+<!-- List of all posts -->
+<div class="posts">
+  <h2>Recent Posts</h2>
+  <% if @posts.any? %>
+    <% @posts.each do |post| %>
+      <div class="post" style="border: 1px solid #ccc; padding: 15px; margin: 15px 0; border-radius: 5px;">
+        <p><strong><%= post.user.email %></strong></p>
+
+        <!-- Follow/Unfollow button (only show if it's not the current user) -->
+        <% if post.user != current_user %>
+          <% if current_user.following?(post.user) %>
+            <%= button_to "Unfollow", unfollow_user_path(post.user), method: :delete, style: "display: inline;" %>
+          <% else %>
+            <%= button_to "Follow", follow_user_path(post.user), method: :post, style: "display: inline;" %>
+          <% end %>
+        <% end %>
+
+        <p><%= post.content %></p>
+        <p style="color: #666; font-size: 0.9em;"><%= time_ago_in_words(post.created_at) %> ago</p>
+        <%= link_to "View Post", post_path(post) %>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No posts yet. Be the first to post!</p>
+  <% end %>
+</div>
+
