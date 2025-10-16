@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Welcome to FakeDLN, <%= @user.first_name %>!</h1>
+    <p>
+      Hi <%= @user.first_name %>,
+    </p>
+    <p>
+      Thank you for signing up for FakeDLN, the professional networking platform (that's totally not LinkedIn 😉).
+    </p>
+    <p>
+      You've successfully created your account with the email: <strong><%= @user.email %></strong>
+    </p>
+    <p>
+      To get started:
+    </p>
+    <ul>
+      <li>Complete your profile with a headline and bio</li>
+      <li>Connect with other professionals</li>
+      <li>Share your thoughts and insights</li>
+      <li>Engage with posts from your network</li>
+    </ul>
+    <p>
+      <%= link_to "Visit FakeDLN", @url %>
+    </p>
+    <p>
+      Thanks for joining us!<br>
+      The FakeDLN Team
+    </p>
+  </body>
+</html>
+

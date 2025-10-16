@@ -12,5 +12,4 @@ class FollowsController < ApplicationController
     current_user.unfollow(user_to_unfollow)
     redirect_back(fallback_location: root_path, notice: "You have unfollowed #{user_to_unfollow.email}")
   end
-
 end

@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
     @post = Post.find(params[:post_id])
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
-    
+
     if @comment.save
       redirect_back(fallback_location: root_path, notice: "Comment added!")
     else
@@ -15,7 +15,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
-    
+
     if @comment.user == current_user
       @comment.destroy
       redirect_back(fallback_location: root_path, notice: "Comment deleted")
@@ -30,4 +30,3 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:content)
   end
 end
-

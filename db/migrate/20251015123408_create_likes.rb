@@ -8,6 +8,6 @@ class CreateLikes < ActiveRecord::Migration[8.0]
     end
 
     # Ensure a user can only like a post once
-    add_index :likes, [:user_id, :post_id], unique: true
+    add_index :likes, [ :user_id, :post_id ], unique: true
   end
 end

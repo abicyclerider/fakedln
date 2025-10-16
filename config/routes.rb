@@ -1,19 +1,20 @@
 Rails.application.routes.draw do
-  resources :users, only: [:index, :show]
+  devise_for :users
+  resources :users, only: [ :index, :show ]
   resources :posts do
-    resources :comments, only: [:create, :destroy]
+    resources :comments, only: [ :create, :destroy ]
   end
 
   # Follow/unfollow routes
-  post 'users/:id/follow', to: 'follows#create', as: 'follow_user'
-  delete 'users/:id/unfollow', to: 'follows#destroy', as: 'unfollow_user'
+  post "users/:id/follow", to: "follows#create", as: "follow_user"
+  delete "users/:id/unfollow", to: "follows#destroy", as: "unfollow_user"
 
   # Like/unlike routes
-  post 'posts/:id/like', to: 'likes#create', as: 'like_post'
-  delete 'posts/:id/unlike', to: 'likes#destroy', as: 'unlike_post'
+  post "posts/:id/like", to: "likes#create", as: "like_post"
+  delete "posts/:id/unlike", to: "likes#destroy", as: "unlike_post"
 
 
-  devise_for :users
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
